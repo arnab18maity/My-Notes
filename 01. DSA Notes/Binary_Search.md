@@ -1,4 +1,4 @@
-# Contents - Linked List
+# Contents - Binary Search
 - [<span style = "font-size:25px; color:green;"> Easy </span>](#easy)
 - [<span style = "font-size:25px; color:orange;"> Medium </span>](#medium)
 - [<span style = "font-size:25px; color:red;"> Hard </span>](#hard)

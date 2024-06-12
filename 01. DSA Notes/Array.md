@@ -221,64 +221,172 @@ while(j < arr.size()) {
 
 ---
 
-### <span style = "color:violet">Question 3 - </span> [Link]()
-#### <b style="color:Aqua"> Problem Statement : </b>
+### <span style = "color:violet">Question 3 - Majority Element (>n/2 times)</span> [Link](https://leetcode.com/problems/majority-element/)
+#### <b style="color:Aqua"> Problem Statement : </b>  Given an array nums of size n, return the majority element. The majority element is the element that appears more than ⌊n / 2⌋ times.
 
 #### <b style="color:Aqua"> Logic : </b>
+
+<b>Brute Force : </b>
+Use two nested loops & check for every element in the array if it is the majority element.
+
+<b>Better : </b>
+Use a Hashmap & store the frequency of every element in the array. If the frequency is greater than ⌊n / 2⌋ then it is the majority element.
+
+<b>Optimal : </b>
+<ol type=1>
+<li> Use Moore's Voting Algorithm. </li>
+<li> When count == 0 set the element to be nums[i] & count = 1. </li>
+<li> If nums[i] == element then count++ else count-- </li>
+<li> Continue the process  </li>
+<li> Return the element if problem states there is always one majority elements </li>
+<li> Otherwise check the element. If it appears more than ⌊n / 2⌋ times return it. If not the array has no majority element </li>
+</ol>
+
 
 #### <b style="color:Aqua">Code : </b>
 
 ```cpp
+       int count = 0;
+       int element;
+        
+       for(int i = 0; i < nums.size(); i++) {
+           if(count == 0) {
+              element = nums[i];
+              count = 1;
+           }
+           else if(nums[i] == element) count++;
+           else count--;
+       }
+        
+       return element;
 
+    // If there is possibility of no majority element check the element for majority
+       int count1 = 0;
+       for(int i = 0; i < nums.size(); i++) {
+           if(nums[i] == element) count1++;
+       }
+
+       if(count1 > nums.size()/2) return element;
+
+       return -1;
 
 ```
 
 ---
 
-### <span style = "color:violet">Question 4 - </span> [Link]()
-#### <b style="color:Aqua"> Problem Statement : </b>
+### <span style = "color:violet">Question 4 - </span> [Link](https://leetcode.com/problems/maximum-subarray/)
+#### <b style="color:Aqua"> Problem Statement : </b> Given an integer array nums, find the subarray with the largest sum, and return its sum.
 
 #### <b style="color:Aqua"> Logic : </b>
+
+<b>Brute Force : </b>
+Use two nested loops & check for every subarray. Return the maximum sum.
+
+<b>Optimal : </b>
+<ol type=1>
+<li> Use Kadane's algorithm. </li>
+<li> Initialize sum = 0, maxi = INT_MIN. </li>
+<li> We do not carry any negative sum forward. If sum < 0 then set sum = 0 </li>
+<li> Update maxi = max(maxi, sum) </li>
+<li> Return maxi </li>
+<li> If problem states including empty subarray then return max(0, maxi) </li>
+</ol>
 
 #### <b style="color:Aqua">Code : </b>
 
 ```cpp
-
+        int sum = 0;
+        int maxi = INT_MIN;
+        
+        for(int i = 0; i < nums.size(); i++) {
+            sum += nums[i];
+            
+            if(sum > maxi) {
+              maxi = sum;
+            }
+            
+            if(sum < 0) {
+               sum = 0;
+            }
+        }
+        
+       return maxi;
 
 ```
 
 ---
 
-### <span style = "color:violet">Question 5 - </span> [Link]()
-#### <b style="color:Aqua"> Problem Statement : </b>
+### <span style = "color:violet">Question 5 - Print subarray with maximum subarray sum (extended version of the above problem) </span>
+#### <b style="color:Aqua"> Problem Statement : </b> Given an integer array nums, find the subarray with the largest sum, and return the subarray. If there is multiple subarrays with the largest sum, return any of them.
 
 #### <b style="color:Aqua"> Logic : </b>
+<ol type=1>
+<li> Use Kadane's algorithm Like the above problem </li>
+<li> Initialize start variable to i, wherever sum = 0 </li>
+<li> When sum > maxSum, update the ansStart with start & ansEnd with i </li>
+</ol>
 
 #### <b style="color:Aqua">Code : </b>
 
 ```cpp
+        int sum = 0;
+        int maxi = INT_MIN;
+        int start = -1, ansStart = -1, ansEnd = -1;
 
+        for(int i = 0; i < nums.size(); i++) {
+            if(sum == 0) start = i;
+            sum += nums[i];
+            
+            if(sum > maxi) {
+              maxi = sum;
+              ansStart = start;
+              ansEnd = i;
+            }
+            
+            if(sum < 0) {
+               sum = 0;
+            }
+        }
+        
+       // return the subarray from ansStart to ansEnd
 
 ```
 
 ---
 
-### <span style = "color:violet">Question 6 - </span> [Link]()
-#### <b style="color:Aqua"> Problem Statement : </b>
+### <span style = "color:violet">Question 6 - Stock Buy and Sell </span> [Link](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+#### <b style="color:Aqua"> Problem Statement : </b> You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
 
 #### <b style="color:Aqua"> Logic : </b>
+If I want to sell a stock on the ith day, I should buy the stock on the minimum from 0 to i-1th day.
+So I need to keep a track of minimum price for every index.
 
 #### <b style="color:Aqua">Code : </b>
 
 ```cpp
-
+       int buy = prices[0];
+       int profit = 0;
+        
+        for(int i = 1; i < prices.size(); i++) {
+          profit = max(profit,prices[i]-buy);
+          buy = min(buy,prices[i]);
+        }
+        
+       return profit;
 
 ```
 
 ---
 
-### <span style = "color:violet">Question 7 - </span> [Link]()
-#### <b style="color:Aqua"> Problem Statement : </b>
+### <span style = "color:violet">Question 7 - Rearrange Array Elements by Sign </span> [Link](https://leetcode.com/problems/rearrange-array-elements-by-sign/)
+#### <b style="color:Aqua"> Problem Statement : </b>  You are given a 0-indexed integer array nums of even length consisting of an equal number of positive and negative integers. You should return the array of nums such that the the array follows the given conditions :
+
+#### 1. Every consecutive pair of integers have opposite signs.
+#### 2. For all integers with the same sign, the order in which they were present in nums is preserved.
+#### 3. The rearranged array begins with a positive integer.
+
+#### Return the modified array after rearranging the elements to satisfy the aforementioned conditions.
+
 
 #### <b style="color:Aqua"> Logic : </b>
 
